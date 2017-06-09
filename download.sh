@@ -12,3 +12,7 @@ do curl -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -L
 done
 
 sudo kill `cat tcpdump.pid`
+
+echo "=RESETS======================================================"
+cat resets.pcap
+echo "=/RESETS====================================================="
