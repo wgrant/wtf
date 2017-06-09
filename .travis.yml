@@ -1,5 +1,5 @@
 language: python
 dist: trusty
 sudo: required
-script: ./download.sh 50
+script: ./download-docker.sh 2
 
