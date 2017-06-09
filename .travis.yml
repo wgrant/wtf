@@ -1,0 +1,5 @@
+language: python
+dist: trusty
+sudo: required
+script: download.sh
+
