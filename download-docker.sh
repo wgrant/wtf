@@ -21,5 +21,5 @@ echo "=/RESETS====================================================="
 echo
 echo "mtr to internap, ipv4"
 mtr -rbw4 068ed04f23.site.internapcdn.net
-echo "mtr to internap, ipv6"
-mtr -rbw6 068ed04f23.site.internapcdn.net
+#echo "mtr to internap, ipv6"
+#mtr -rbw6 068ed04f23.site.internapcdn.net
