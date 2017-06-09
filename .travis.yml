@@ -1,5 +1,6 @@
 language: python
 dist: trusty
 sudo: required
-script: ./download-docker.sh 2
-
+services:
+  - docker
+script: docker run -v `pwd`:`pwd` -w `pwd` ubuntu:xenial ./download-docker.sh 50
