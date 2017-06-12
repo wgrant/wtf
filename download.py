@@ -200,6 +200,7 @@ class StoreClient():
                 logger.debug('Error while downloading: {!r}. '
                              'Retries left to download: {!r}.'.format(
                                  e, retry_count))
+                logger.debug('Response Headers: {!r}'.format(request.headers))
                 retry_count -= 1
                 if not retry_count:
                     raise e

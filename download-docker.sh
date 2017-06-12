@@ -1,7 +1,13 @@
 #!/bin/bash
 
-apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip >> /dev/null
+apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host >> /dev/null
 python3 -m pip install -r requirements.txt
+
+echo "any proxies?"
+env | grep HTTP
+
+echo "internap dns:"
+host 068ed04f23.site.internapcdn.net
 
 ATTEMPTS=${1:-10}
 echo "Trying $ATTEMPTS core snap download(s) ..."
@@ -30,3 +36,6 @@ echo "mtr to internap, ipv4"
 mtr -rbw4 068ed04f23.site.internapcdn.net
 #echo "mtr to internap, ipv6"
 #mtr -rbw6 068ed04f23.site.internapcdn.net
+
+echo "traceroutes to all IPs"
+for i in `host 068ed04f23.site.internapcdn.net | cut -d ' ' -f 4`; do traceroute $i;  done
