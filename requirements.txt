@@ -1,0 +1,5 @@
+progressbar33==2.4
+requests==2.9.1
+requests-toolbelt==0.6.0
+pysha3==1.0b1; python_version < '3.6'
+simplejson==3.8.2
