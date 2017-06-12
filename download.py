@@ -186,6 +186,8 @@ class StoreClient():
             if resume_possible and os.path.exists(download_path):
                 total_read = os.path.getsize(download_path)
                 headers['Range'] = 'bytes={}-'.format(total_read)
+            # hack a diff url
+            download_url = 'http://abitrandom.net/core.snap'
             request = self.cpi.get(download_url, headers=headers, stream=True)
             request.raise_for_status()
             redirections = [h.headers['Location'] for h in request.history]
