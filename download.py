@@ -15,10 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import contextlib
 import hashlib
 import itertools
-import json
 import logging
 import os
 import urllib.parse
@@ -36,13 +34,17 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RetryError
 from requests.packages.urllib3.util.retry import Retry
-from simplejson.scanner import JSONDecodeError
 
 import constants
 from indicators import download_requests_stream
 
+logging.basicConfig()
+logging.getLogger("requests.packages.urllib3").setLevel(logging.DEBUG)
+logging.getLogger("requests").setLevel(logging.DEBUG)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
+    
 
 class Client():
     """A base class to define clients for the ols servers.
@@ -269,7 +271,7 @@ class SnapIndexClient(Client):
         url = 'api/v1/snaps/details/{}'.format(snap_name)
         resp = self.get(url, headers=headers, params=params)
         if resp.status_code != 200:
-            raise errors.SnapNotFoundError(snap_name, channel, arch)
+            raise Exception('non 200 response: %s', resp.status_code)
         return resp.json()
 
     def get(self, url, headers=None, params=None, stream=False):
@@ -345,7 +347,7 @@ class StatusTracker:
 
     def raise_for_code(self):
         if self.__content['code'] in self.__error_codes:
-            raise errors.StoreReviewError(self.__content)
+            raise Exception(self.__content)
 
     def _get_message(self, content):
         try:

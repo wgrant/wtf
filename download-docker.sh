@@ -17,6 +17,7 @@ do python3 download.py
     rm core.snap
     #echo "sleeping 5"
     #sleep 5
+    echo "-----------------------------------------------"
 done
 
 kill `cat tcpdump.pid`
