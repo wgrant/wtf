@@ -18,7 +18,7 @@ for i in `seq $ATTEMPTS`;
 #do python3 download.py
 do python3 rt_stream.py
     ls -lh core.snap
-    rm core.snap
+    rm core*.snap
     #echo "sleeping 5"
     #sleep 5
     echo "-----------------------------------------------"
