@@ -188,6 +188,7 @@ class StoreClient():
                 headers['Range'] = 'bytes={}-'.format(total_read)
             # hack a diff url
             #download_url = 'https://abitrandom.net/core.snap'
+            download_url = 'http://7af8351798.site.internapcdn.net/debug/core.snap'
             request = self.cpi.get(download_url, headers=headers, stream=True)
             request.raise_for_status()
             redirections = [h.headers['Location'] for h in request.history]
