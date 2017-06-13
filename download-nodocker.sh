@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host >> /dev/null
+sudo apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host wget >> /dev/null
 python3 -m pip install -r requirements.txt
 
 echo "any proxies?"
@@ -18,8 +18,9 @@ nohup sudo tcpdump -fnv -w resets.pcap dst port 443 and 'tcp[tcpflags] & (tcp-rs
 for i in `seq $ATTEMPTS`;
 #do curl -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS \
 	 #    $(curl -s -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core | jq '.anon_download_url' -r) -o /dev/null;
-do python3 download.py
-    ls -lh core.snap
+	 #do python3 download.py
+do python3 rt_stream.py "https://068ed04f23.site.internapcdn.net/download-snap/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_1689.snap?t=2017-06-14T17:39:44Z&h=8a089bce53877655be8a21cccb1cc150283277a9"
+    #ls -lh core.snap
     rm core.snap
     #echo "sleeping 5"
     #sleep 5
@@ -32,10 +33,10 @@ echo "=RESETS======================================================"
 cat resets.pcap
 echo "=/RESETS====================================================="
 echo
-echo "mtr to internap, ipv4"
-sudo mtr -rbw4 068ed04f23.site.internapcdn.net
+#echo "mtr to internap, ipv4"
+#sudo mtr -rbw4 068ed04f23.site.internapcdn.net
 #echo "mtr to internap, ipv6"
 #mtr -rbw6 068ed04f23.site.internapcdn.net
 
-echo "traceroutes to all IPs"
-for i in `host 068ed04f23.site.internapcdn.net | cut -d ' ' -f 4`; do traceroute $i;  done
+#echo "traceroutes to all IPs"
+#for i in `host 068ed04f23.site.internapcdn.net | cut -d ' ' -f 4`; do traceroute $i;  done
