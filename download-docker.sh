@@ -22,8 +22,8 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
    # murder all the kittens
    cURL=$(wget --max-redirect=0 -S -O /dev/null $sURL 2>&1 | grep 'Location:' | grep -v 'following' | cut -c 13-)
    echo -e "\nGot: $cURL"
-    echo -e "\n>>>>>>>>>>>>>> CURL it"
-    curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null "$cURL"
+    #echo -e "\n>>>>>>>>>>>>>> CURL it"
+    #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null "$cURL"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL
     
@@ -35,12 +35,13 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
 #    python3 rt_stream.py $URL_local
 
     #cURL2=${cURL//068ed04f23/f081088235}
-#    cURL2="https://f081088235.site.internapcdn.net/download-snap/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_1689.snap?t=2017-09-02T04:15:00Z&h=2F7D1B11A0#2D6965D2F0352D2EA73F779AE45ECB"
-#    echo -e "\n>>>>>>>>>>>>>> Now use our other CDN test URL $cURL2"
-#    echo -e "\n>>>>>>>>>>>>>> CURL IT"
-#    curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null $cURL2
-#    echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-#    python3 rt_stream.py $cURL2
+    #cURL2="https://f081088235.site.internapcdn.net/download-snap/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_1689.snap?t=2017-09-02T04:15:00Z&h=2F7D1B11A0#2D6965D2F0352D2EA73F779AE45ECB"
+    cURL2="http://f081088235.site.internapcdn.net/download-snap/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_1689.snap?t=2017-09-02T04:00:00Z&h=CB4A03C5B64242CDC442B50069CB0421F491F7A1"
+    echo -e "\n>>>>>>>>>>>>>> Now use our other CDN test URL $cURL2"
+    #echo -e "\n>>>>>>>>>>>>>> CURL IT"
+    #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null $cURL2
+    echo -e "\n>>>>>>>>>>>>>> Python Stream it"
+    python3 rt_stream.py $cURL2
 
     #ls -lh core*.snap
     rm *.snap
