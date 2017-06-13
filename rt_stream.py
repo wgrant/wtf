@@ -4,7 +4,7 @@ from requests_toolbelt.downloadutils import stream
 
 def download(url, path):
     print('>>>> starting download: {}'.format(url))
-    r = requests.get(url, stream=True)
+    r = requests.get(url, stream=True, headers={'user-agent': 'wtf', 'accept': '*/*'})
     for (k,v) in r.headers.items():
         print('{}: {}'.format(k, v))
     stream.stream_response_to_file(r, path=path)
