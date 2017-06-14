@@ -1,0 +1,6 @@
+machine:
+  services:
+    - docker
+  test:
+    override:
+      - docker run -v `pwd`:`pwd` -w `pwd` ubuntu:xenial ./download-docker.sh 10
