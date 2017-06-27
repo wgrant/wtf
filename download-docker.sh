@@ -42,17 +42,19 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null $cURL2
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL2
-
+    rm *.snap
+    
     cURL3="https://f081088235.site.internapcdn.net/abr/core.snap"
     echo -e "\n>>>>>>>>>>>>>> Now CDN to ABR test URL $cURL3"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL3
-
-    cURL4="https://f081088235.site.internapcdn.net/abr/core.snap"
+    rm *.snap
+    
+    cURL4="https://abitrandom.net/core.snap"
     echo -e "\n>>>>>>>>>>>>>> Now direct to ABR test URL $cURL4"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL4
-
+    
     #ls -lh core*.snap
     rm *.snap
     #echo -e "sleeping 5"
