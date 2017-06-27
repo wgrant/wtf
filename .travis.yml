@@ -3,5 +3,6 @@ dist: trusty
 sudo: required
 services:
   - docker
-script: docker run -v `pwd`:`pwd` -w `pwd` ubuntu:xenial ./download-docker.sh 10
+#script: docker run -v `pwd`:`pwd` -w `pwd` ubuntu:xenial ./download-docker.sh 10
+script: docker run -v `pwd`:`pwd` -w `pwd` ubuntu:xenial ./download-docker-pycurl.sh 10
 #script: ./download-nodocker.sh 20

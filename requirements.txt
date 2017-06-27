@@ -5,3 +5,4 @@ requests==2.17.3
 requests-toolbelt==0.8.0
 pysha3==1.0b1; python_version < '3.6'
 simplejson==3.8.2
+pycurl==7.43.0
