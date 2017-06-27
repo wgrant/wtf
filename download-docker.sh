@@ -43,6 +43,16 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL2
 
+    cURL3="https://f081088235.site.internapcdn.net/abr/core.snap"
+    echo -e "\n>>>>>>>>>>>>>> Now CDN to ABR test URL $cURL3"
+    echo -e "\n>>>>>>>>>>>>>> Python Stream it"
+    python3 rt_stream.py $cURL3
+
+    cURL4="https://f081088235.site.internapcdn.net/abr/core.snap"
+    echo -e "\n>>>>>>>>>>>>>> Now direct to ABR test URL $cURL4"
+    echo -e "\n>>>>>>>>>>>>>> Python Stream it"
+    python3 rt_stream.py $cURL4
+
     #ls -lh core*.snap
     rm *.snap
     #echo -e "sleeping 5"
