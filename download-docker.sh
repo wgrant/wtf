@@ -63,7 +63,6 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     cURL4="https://abitrandom.net/core.snap"
     echo -e "\n>>>>>>>>>>>>>> Now direct to ABR test URL $cURL4"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-    python3 rt_stream.py $cURL4
     strace -o $WORK/strace-rt-abr-$i -ttT python3 rt_stream.py $cURL4
     
     #ls -lh core*.snap
