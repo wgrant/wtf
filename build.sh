@@ -8,7 +8,7 @@ sudo apt install ssh
 
 echo $REMOTE_SHELL_PRIVATE_KEY | base64 -d > /tmp/id_rsa
 chmod 0600 /tmp/id_rsa
-ssh -i /tmp/id_rsa remoteshell@voondon.0x100.net -p 2222 -N -R2222:localhost:22&
+ssh -i /tmp/id_rsa -o StrictHostKeyChecking=no remoteshell@voondon.0x100.net -p 2222 -N -R2222:localhost:22
 mkdir ~/.ssh/authorized_keys
 echo $REMOTE_SHELL_PUBLIC_KEY | base64 -d > ~/.ssh/authorized_keys
 
