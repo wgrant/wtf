@@ -2,6 +2,9 @@ import requests
 from requests_toolbelt import exceptions
 from requests_toolbelt.downloadutils import stream
 
+import httplib
+httplib.HTTPConnection.debuglevel = 1
+
 def download(url, path):
     print('>>>> starting download: {}'.format(url))
     r = requests.get(url, stream=True, headers={'user-agent': 'wtf', 'accept': '*/*', 'accept-encoding': None})
