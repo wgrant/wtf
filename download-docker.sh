@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools >> /dev/null
+apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3 python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools >> /dev/null
 
 python3 -m pip install -r requirements.txt
 

@@ -18,7 +18,7 @@ mkdir /tmp/xenial
 pushd /tmp/xenial
 sudo tar xf /tmp/xenial.tar.gz
 sudo cp /etc/resolv.conf chroot-autobuild/etc/resolv.conf
-echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" > chroot-autobuild/etc/apt/sources.list
+echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee chroot-autobuild/etc/apt/sources.list
 popd
 
 sudo mkdir -p /tmp/xenial/chroot-autobuild/`pwd`
