@@ -16,6 +16,7 @@ sudo apt install net-tools jq bridge-utils iptables
 
 echo 0 | sudo tee /proc/sys/net/ipv4/tcp_sack
 echo 6 | sudo tee /proc/sys/net/netfilter/nf_conntrack_log_invalid
+echo 1 | sudo tee /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal
 echo 16777216 | sudo tee /proc/sys/net/core/rmem_default
 echo 16777216 | sudo tee /proc/sys/net/core/rmem_max
 echo "16777216 16777216 16777216" | sudo tee /proc/sys/net/ipv4/tcp_mem
