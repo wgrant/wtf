@@ -1,6 +1,9 @@
 #!/bin/bash
 
-apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3 python3-setuptools python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools >> /dev/null
+WORK=out-`date +%Y%m%d%H%M%S`
+mkdir $WORK
+
+apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3 python3-setuptools python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools strace >> /dev/null
 
 python3 -m pip install -r requirements.txt
 
@@ -10,11 +13,11 @@ host 068ed04f23.site.internapcdn.net
 ATTEMPTS=${1:-3}
 echo "Trying $ATTEMPTS core snap download(s) ..."
 
-nohup tcpdump -fnv -w tcpdump-resets.pcap src port 443 and 'tcp[tcpflags] & (tcp-rst) != 0' \
-  > tcpdump-resets.out 2>&1 & echo $! > tcpdump-resets.pid
+nohup tcpdump -fnv -w $WORK/tcpdump-resets.pcap src port 443 and 'tcp[tcpflags] & (tcp-rst) != 0' \
+  > $WORK/tcpdump-resets.out 2>&1 & echo $! > $WORK/tcpdump-resets.pid
 
-nohup tcpdump -w tcpdump-all.pcap -s 1024 port 443 \
-  > tcpdump-all.out 2>&1 & echo $! > tcpdump-all.pid
+nohup tcpdump -w $WORK/tcpdump-all.pcap -s 1024 port 443 \
+  > $WORK/tcpdump-all.out 2>&1 & echo $! > $WORK/tcpdump-all.pid
 
 for i in `seq $ATTEMPTS`;
 #do python3 download.py
@@ -29,7 +32,7 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     #echo -e "\n>>>>>>>>>>>>>> CURL it"
     #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null "$cURL"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-    python3 rt_stream.py $cURL
+    strace -o $WORK/strace-rt-cdn-$i -ttT python3 rt_stream.py $cURL
     rm *.snap
 
     sURL_local="$sURL?cdn=local"
@@ -39,7 +42,7 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     #echo -e "\n>>>>>>>>>>>>>> CURL it"
     #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null $URL_local
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-    python3 rt_stream.py $URL_local
+    strace -o $WORK/strace-rt-local-$i -ttT python3 rt_stream.py $URL_local
     rm *.snap
 
     cURL2="https://f081088235.site.internapcdn.net/download-snap/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_1689.snap?t=2017-09-02T04:15:00Z&h=2F7D1B11A0#2D6965D2F0352D2EA73F779AE45ECB"
@@ -48,19 +51,20 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     #echo -e "\n>>>>>>>>>>>>>> CURL IT"
     #curl -vA "wtf" -w '%{http_code}: %{url_effective} %{size_download} %{time_total}s\n' -LsS -D - -o /dev/null $cURL2
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-    python3 rt_stream.py $cURL2
+    strace -o $WORK/strace-rt-cdn2-$i -ttT python3 rt_stream.py $cURL2
     rm *.snap
     
     cURL3="https://f081088235.site.internapcdn.net/abr/core.snap"
     echo -e "\n>>>>>>>>>>>>>> Now CDN to ABR test URL $cURL3"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
-    python3 rt_stream.py $cURL3
+    strace -o $WORK/strace-rt-cdn3-$i -ttT python3 rt_stream.py $cURL3
     rm *.snap
     
     cURL4="https://abitrandom.net/core.snap"
     echo -e "\n>>>>>>>>>>>>>> Now direct to ABR test URL $cURL4"
     echo -e "\n>>>>>>>>>>>>>> Python Stream it"
     python3 rt_stream.py $cURL4
+    strace -o $WORK/strace-rt-abr-$i -ttT python3 rt_stream.py $cURL4
     
     #ls -lh core*.snap
     rm *.snap
@@ -69,11 +73,11 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     echo -e ">>>>>>>>>>>>>>>> RUN $i done <<<<<<<<<<<<<<<<<<<<<"
 done
 
-kill `cat tcpdump-resets.pid`
-kill `cat tcpdump-all.pid`
+kill `cat $WORK/tcpdump-resets.pid`
+kill `cat $WORK/tcpdump-all.pid`
 
 echo -e "=RESETS======================================================"
-cat tcpdump-resets.pcap
+cat $WORK/tcpdump-resets.pcap
 echo -e "=/RESETS====================================================="
 echo -e
 
