@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Acquiring Launchpad xenial/amd64 chroot."
 XENIAL_CHROOT_URL=`curl -s https://api.launchpad.net/devel/ubuntu/xenial/amd64/chroot_url | jq . -r`
 wget -O /tmp/xenial.tar.gz $XENIAL_CHROOT_URL

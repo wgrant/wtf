@@ -33,4 +33,7 @@ ip a
 echo "======= ip r ======="
 ip r
 
-sysctl -a > sysctl.out
+echo "======= brctl show ======="
+sudo brctl show
+
+sudo sysctl -a > sysctl.out
