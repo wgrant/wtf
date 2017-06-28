@@ -1,4 +1,5 @@
 #!/bin/bash
 
-docker run --name xenial -v `pwd`:`pwd` -w `pwd` ubuntu:xenial $1
-docker start -a xenial
+docker create --name xenial -v `pwd`:`pwd` ubuntu:xenial
+docker start xenial
+docker exec -t xenial -w `pwd` $1
