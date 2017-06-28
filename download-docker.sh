@@ -77,6 +77,7 @@ cat tcpdump-resets.pcap
 echo -e "=/RESETS====================================================="
 echo -e
 
+netstat -i
 netstat -s
 
 #echo -e "mtr to internap, ipv4"

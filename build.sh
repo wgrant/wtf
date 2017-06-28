@@ -15,3 +15,14 @@ netstat -i
 
 echo "======= netstat -s ======="
 netstat -s
+
+echo "======= ip l ======="
+ip l
+
+echo "======= ip a ======="
+ip a
+
+echo "======= ip r ======="
+ip r
+
+sysctl -a > sysctl.out
