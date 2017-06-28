@@ -2,7 +2,7 @@
 
 export LC_ALL=C
 
-sudo apt install net-tools jq
+sudo apt install net-tools jq bridge-utils iptables
 
 echo 0 | sudo tee /proc/sys/net/ipv4/tcp_sack
 echo 16777216 | sudo tee /proc/sys/net/core/rmem_default
@@ -35,5 +35,11 @@ ip r
 
 echo "======= brctl show ======="
 sudo brctl show
+
+docker network ls
+
+sudo iptables -L -vn
+sudo iptables -L -t nat -vn
+sudo iptables -L -t mangle -vn
 
 sudo sysctl -a > sysctl.out
