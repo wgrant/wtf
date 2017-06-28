@@ -6,11 +6,14 @@ python3 -m pip install -r requirements.txt
 echo "internap dns:"
 host 068ed04f23.site.internapcdn.net
 
-ATTEMPTS=${1:-10}
+ATTEMPTS=${1:-3}
 echo "Trying $ATTEMPTS core snap download(s) ..."
 
-nohup tcpdump -fnv -w resets.pcap dst port 443 and 'tcp[tcpflags] & (tcp-rst) != 0' \
-  > tcpdump.out 2>&1 & echo $! > tcpdump.pid
+nohup tcpdump -fnv -w tcpdump-resets.pcap src port 443 and 'tcp[tcpflags] & (tcp-rst) != 0' \
+  > tcpdump-resets.out 2>&1 & echo $! > tcpdump-resets.pid
+
+nohup tcpdump -w tcpdump-all.pcap -s 1024 port 443 \
+  > tcpdump-all.out 2>&1 & echo $! > tcpdump-all.pid
 
 for i in `seq $ATTEMPTS`;
 #do python3 download.py
@@ -65,10 +68,11 @@ do echo -e "\n>>>>>>>>>>>>>> Get URL From Store"
     echo -e ">>>>>>>>>>>>>>>> RUN $i done <<<<<<<<<<<<<<<<<<<<<"
 done
 
-kill `cat tcpdump.pid`
+kill `cat tcpdump-resets.pid`
+kill `cat tcpdump-all.pid`
 
 echo -e "=RESETS======================================================"
-cat resets.pcap
+cat tcpdump-resets.pcap
 echo -e "=/RESETS====================================================="
 echo -e
 
