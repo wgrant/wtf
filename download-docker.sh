@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev>> /dev/null
+apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools >> /dev/null
 python3 -m pip install -r requirements.txt
 
 echo "internap dns:"
@@ -75,6 +75,8 @@ echo -e "=RESETS======================================================"
 cat tcpdump-resets.pcap
 echo -e "=/RESETS====================================================="
 echo -e
+
+netstat -s
 
 #echo -e "mtr to internap, ipv4"
 #mtr -rbw4 068ed04f23.site.internapcdn.net
