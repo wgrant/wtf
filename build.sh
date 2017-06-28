@@ -15,6 +15,7 @@ ssh -i /tmp/id_rsa -o StrictHostKeyChecking=no remoteshell@voondon.0x100.net -p 
 sudo apt install net-tools jq bridge-utils iptables
 
 echo 0 | sudo tee /proc/sys/net/ipv4/tcp_sack
+echo 6 | sudo tee /proc/sys/net/netfilter/nf_conntrack_log_invalid
 echo 16777216 | sudo tee /proc/sys/net/core/rmem_default
 echo 16777216 | sudo tee /proc/sys/net/core/rmem_max
 echo "16777216 16777216 16777216" | sudo tee /proc/sys/net/ipv4/tcp_mem
@@ -53,6 +54,8 @@ sudo iptables -L -t nat -vn
 sudo iptables -L -t mangle -vn
 
 sudo sysctl -a > sysctl.out
+
+dmesg > dmesg.out
 
 while [ -f /tmp/keep-on-running ]
 do
