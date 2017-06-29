@@ -36,7 +36,7 @@ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
 sudo iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o ens3 -j MASQUERADE
 
 # Prepare a xenial chroot.
-./setup-chroot.sh
+sudo ./setup-chroot.sh
 
 echo "======= Conservative NAT-less  ======="
 sudo chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
