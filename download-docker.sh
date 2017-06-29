@@ -3,7 +3,7 @@
 WORK=out-`date +%Y%m%d%H%M%S`
 mkdir $WORK
 
-apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3 python3-setuptools python3-pip traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools strace >> /dev/null
+apt update >> /dev/null && apt install -y curl jq mtr tcpdump python3 python3-setuptools python3-pip python3-wheel traceroute bind9-host wget python3-dev libssl-dev libcurl4-openssl-dev net-tools strace >> /dev/null
 
 python3 -m pip install -r requirements.txt
 
