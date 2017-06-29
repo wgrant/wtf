@@ -16,5 +16,3 @@ sudo mount --bind /proc /tmp/xenial/chroot-autobuild/proc
 sudo mount --bind /sys /tmp/xenial/chroot-autobuild/sys
 sudo mount --bind /dev /tmp/xenial/chroot-autobuild/dev
 sudo chroot /tmp/xenial/chroot-autobuild apt update
-
-sudo chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; $1"
