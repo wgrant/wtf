@@ -14,14 +14,39 @@ ssh -i /tmp/id_rsa -o StrictHostKeyChecking=no remoteshell@voondon.0x100.net -p 
 
 sudo apt install net-tools jq bridge-utils iptables
 
+# Create a new netns with a single veth to the host.
+sudo ip netns add test
+sudo ip l add dev test-host type veth peer name test-guest
+sudo ip l set dev test-host up
+sudo ip l set test-guest netns test
+sudo ip netns exec test ip a add dev test-guest 172.16.0.2/24
+sudo ip netns exec test ip l set dev test-guest up
+sudo ip netns exec test ip r add default via 172.16.0.1
+
+# Bridge the interface onto the host.
+# XXX: Probably reproducible just by sticking an IP on the host end of
+# the veth, no bridge required.
+sudo brctl addbr br-argh
+sudo ip a add dev br-argh 172.16.0.1/24
+sudo ip l set dev br-argh up
+sudo brctl addif br-argh test-host
+
+# Enable IP forwarding and NAT packets from the veth to the 'net.
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+sudo iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o ens3 -j MASQUERADE
+
+# Prepare a xenial chroot.
 ./setup-chroot.sh
 
-echo "======= Conservative ======="
+echo "======= Conservative NAT-less  ======="
 sudo chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
 
-echo "======= Liberal ======="
+echo "======= Conservative NATted ======="
+sudo ip netns exec test chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
+
+echo "======= Liberal NATted ======="
 echo 1 | sudo tee /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal
-sudo chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
+sudo ip netns exec test chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
 
 echo "======= netstat -i ======="
 netstat -i
