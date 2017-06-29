@@ -33,7 +33,9 @@ sudo brctl addif br-argh test-host
 
 # Enable IP forwarding and NAT packets from the veth to the 'net.
 echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
-sudo iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o ens3 -j MASQUERADE
+sudo iptables -t nat -I POSTROUTING -s 172.16.0.0/16 -o eth0 -j MASQUERADE
+sudo iptables -I FORWARD -i br-argh -j ACCEPT
+sudo iptables -I FORWARD -o br-argh -j ACCEPT
 
 # Prepare a xenial chroot.
 sudo ./setup-chroot.sh
