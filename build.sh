@@ -37,18 +37,16 @@ sudo iptables -t nat -I POSTROUTING -s 172.16.0.0/16 -o eth0 -j MASQUERADE
 sudo iptables -I FORWARD -i br-argh -j ACCEPT
 sudo iptables -I FORWARD -o br-argh -j ACCEPT
 
-# Prepare a xenial chroot.
-sudo ./setup-chroot.sh
-
 echo "======= Conservative NAT-less  ======="
-sudo chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
+sudo ./download-docker.sh 2
 
 echo "======= Conservative NATted ======="
-sudo ip netns exec test chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
+sudo ip netns exec test ./download-docker.sh 2
 
 echo "======= Liberal NATted ======="
 echo 1 | sudo tee /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal
-sudo ip netns exec test chroot /tmp/xenial/chroot-autobuild bash -c "cd `pwd`; ./download-docker.sh 2"
+sudo ip netns exec test ./download-docker.sh 2
+
 
 echo "======= netstat -i ======="
 netstat -i
